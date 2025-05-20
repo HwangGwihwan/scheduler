@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.scheduler.mapper.LoginMapper">
+	<select id="login" parameterType="com.example.scheduler.dto.Member"
+					   resultType="com.example.scheduler.dto.Member">
+		SELECT id, pw, email, active
+		FROM member
+		WHERE id = #{id} AND pw = #{pw}
+	</select>
+	
+	<select id="selectInactive" resultType="com.example.scheduler.dto.Member">
+		SELECT member.id, member.pw, member.email, member.active
+		FROM member INNER JOIN (
+			SELECT id, MAX(logindate) logindate
+			FROM login_history
+			GROUP BY id
+			HAVING TIMESTAMPDIFF(YEAR, logindate, NOW()) &gt;= 1) t1
+		ON t1.id = member.id
+	</select>
+	
+	<update id="updateMemberActiveById" parameterType="String">
+		UPDATE member
+		SET ACTIVE = 'OFF'
+		WHERE id = #{id}
+	</update>
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.scheduler.mapper.HistoryMapper">
+	<insert id="insertHistory" parameterType="String">
+		INSERT INTO login_history(id) VALUES(#{id})
+	</insert>
+	
+	<!--
+	<select id="selectHistory" resultType="com.example.scheduler.dto.LoginHistory">
+		SELECT id, MAX(logindate) logindate
+		FROM login_history
+		GROUP BY id
+		HAVING TIMESTAMPDIFF(YEAR, logindate, NOW()) &gt;= 1
+	</select>
+	 -->
+</mapper>
