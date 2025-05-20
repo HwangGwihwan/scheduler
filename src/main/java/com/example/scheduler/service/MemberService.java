@@ -34,14 +34,16 @@ public class MemberService {
 	}
 	
 	public void updateMemberActive(Member member) {
+		if (member.getActive().equals("ON")) {
+			SimpleMailMessage msg = new SimpleMailMessage();
+			msg.setFrom("admin@localhost.com");
+			msg.setTo(member.getEmail());
+			msg.setSubject("당신의 계정이 휴먼상태로 변경되었습니다");
+			msg.setText(member.getId() + "계정이 휴먼상태로 변경되었습니다");
+			
+			javaMailSender.send(msg);
+		}
+		
 		loginMapper.updateMemberActiveById(member.getId());
-		
-		SimpleMailMessage msg = new SimpleMailMessage();
-		msg.setFrom("admin@localhost.com");
-		msg.setTo(member.getEmail());
-		msg.setSubject("당신의 계정이 휴먼상태로 변경되었습니다");
-		msg.setText(member.getId() + "계정이 휴먼상태로 변경되었습니다");
-		
-		javaMailSender.send(msg);
 	}
 }
