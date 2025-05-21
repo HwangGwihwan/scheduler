@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.scheduler.dto.Member;
+import com.example.scheduler.dto.PwHistory;
 import com.example.scheduler.mapper.HistoryMapper;
 import com.example.scheduler.mapper.LoginMapper;
 
@@ -45,5 +46,22 @@ public class MemberService {
 		}
 		
 		loginMapper.updateMemberActiveById(member.getId());
+	}
+	
+	public void updateMemberPw(Member member) {
+		loginMapper.updateMemberPw(member);
+		
+		PwHistory pwHistory = new PwHistory();
+		pwHistory.setId(member.getId());
+		pwHistory.setPw(member.getPw());
+		historyMapper.insertPwHistroy(pwHistory);
+	}
+	
+	public String selectIdAndPw(String id, String pw) {
+		return historyMapper.selectIdAndPw(id, pw);
+	}
+	
+	public void deletePwHistory() {
+		historyMapper.deletePwHistory();
 	}
 }

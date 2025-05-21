@@ -11,4 +11,5 @@ public interface LoginMapper {
 	Member login(Member member);
 	List<Member> selectInactive();
 	int updateMemberActiveById(String id);
+	int updateMemberPw(Member member);
 }

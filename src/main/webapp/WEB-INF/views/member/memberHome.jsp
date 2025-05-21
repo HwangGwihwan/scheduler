@@ -9,5 +9,6 @@
 <body>
 	<div>${loginMember.id}님 반갑습니다.</div>
 	<div><a href="/logout">로그아웃</a></div>
+	<div><a href="/changePw?id=${loginMember.id}">비밀번호 변경</a></div>
 </body>
 </html>

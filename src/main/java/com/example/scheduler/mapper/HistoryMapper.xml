@@ -5,6 +5,27 @@
 		INSERT INTO login_history(id) VALUES(#{id})
 	</insert>
 	
+	<insert id="insertPwHistroy" parameterType="com.example.scheduler.dto.PwHistory">
+		INSERT INTO pw_history(id, pw) VALUES(#{id}, #{pw})
+	</insert>
+	
+	<select id="selectIdAndPw" parameterType="String" resultType="String">
+		SELECT id
+		FROM pw_history
+		WHERE id = #{id} and pw = #{pw}
+	</select>
+	
+	<delete id="deletePwHistory">
+		DELETE FROM pw_history
+		WHERE (id, change_date) NOT IN (
+			SELECT id, change_date
+			FROM (
+				SELECT id, change_date, ROW_NUMBER() OVER (PARTITION BY id ORDER BY change_date DESC) AS no
+				FROM pw_history) t1
+			WHERE no &lt;= 5)
+	
+	</delete>
+	
 	<!--
 	<select id="selectHistory" resultType="com.example.scheduler.dto.LoginHistory">
 		SELECT id, MAX(logindate) logindate

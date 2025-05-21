@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Schedule {
 	@Autowired MemberService memberService;
 	
-	@Scheduled(cron = "0 * * * * *")
+	//@Scheduled(cron = "0 * * * * *")
 	//@Scheduled(cron = "0 59 23 25 * *")
 	public void inactive() {
 		List<Member> list = memberService.selectInactive();
@@ -25,5 +25,10 @@ public class Schedule {
 			log.info(m.toString());
 			memberService.updateMemberActive(m);
 		}
+	}
+	
+	//@Scheduled(cron = "0 * * * * *")
+	public void delete() {
+		memberService.deletePwHistory();
 	}
 }
